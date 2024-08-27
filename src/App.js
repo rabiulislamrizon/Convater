@@ -4,17 +4,13 @@ import FileConverter from './FileConverter';
 import JPGtoPNG from './JPGtoPNG';
 import SVGtoPNG from './SVGtoPNG';
 import JPGtoPDF from './PDFtoJPG';
+import PageSpeed from './PageSpeed';
 
 function App() {
   return (
     <>
+     <PageSpeed></PageSpeed>
      
-     
-      <FileConverter />
-      <JPGtoPNG></JPGtoPNG>
-      <JPGtoPDF></JPGtoPDF>
-      
-   
     </>
   );
 }
