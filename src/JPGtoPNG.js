@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function FileConverter() {
+function JPGtoPNG() {
     const [file, setFile] = useState(null);
     const [convertedFile, setConvertedFile] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -9,15 +9,15 @@ function FileConverter() {
 
     const handleFileUpload = (event) => {
         const uploadedFile = event.target.files[0];
-        if (uploadedFile && uploadedFile.type === 'image/png') {
+        if (uploadedFile && uploadedFile.type === 'image/jpeg') {
             setFile(uploadedFile);
             setConvertedFile(null); // Clear previous converted file
         } else {
-            setError('Please upload a PNG file.');
+            setError('Please upload a JPG file.');
         }
     };
 
-    const convertToJpg = async (file) => {
+    const convertToPng = async (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -49,8 +49,8 @@ function FileConverter() {
                     canvas.height = height;
                     ctx.drawImage(image, 0, 0, width, height);
 
-                    // Convert to JPG format
-                    resolve(canvas.toDataURL('image/jpeg'));
+                    // Convert to PNG format
+                    resolve(canvas.toDataURL('image/png'));
                 };
 
                 image.onerror = () => reject('Error loading the image.');
@@ -66,8 +66,8 @@ function FileConverter() {
             setError('');
 
             try {
-                const jpgData = await convertToJpg(file);
-                setConvertedFile(jpgData);
+                const pngData = await convertToPng(file);
+                setConvertedFile(pngData);
             } catch (err) {
                 setError('Error converting the file. Please try again.');
             } finally {
@@ -80,14 +80,14 @@ function FileConverter() {
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-8 col-lg-6">
-                    <h2 className="text-center mb-4">Convert PNG to JPG</h2>
+                    <h2 className="text-center mb-4">Convert JPG to PNG</h2>
                     <div className="card p-4 shadow-sm border-0">
                         <div className="form-group mb-3">
-                            <label htmlFor="fileUpload">Upload PNG File:</label>
+                            <label htmlFor="fileUpload">Upload JPG File:</label>
                             <input
                                 id="fileUpload"
                                 type="file"
-                                accept="image/png"
+                                accept="image/jpeg"
                                 onChange={handleFileUpload}
                                 className="form-control"
                             />
@@ -97,7 +97,7 @@ function FileConverter() {
                             onClick={handleConvert}
                             disabled={!file || loading}
                         >
-                            {loading ? 'Converting...' : 'Convert to JPG'}
+                            {loading ? 'Converting...' : 'Convert to PNG'}
                         </button>
                         {error && (
                             <div className="alert alert-danger mt-4" role="alert">
@@ -109,16 +109,16 @@ function FileConverter() {
                                 <h3>Converted File:</h3>
                                 <img
                                     src={convertedFile}
-                                    alt="Converted JPG"
+                                    alt="Converted PNG"
                                     className="img-fluid"
                                 />
                                 <div className="mt-3">
                                     <a
                                         href={convertedFile}
-                                        download="converted.jpg"
+                                        download="converted.png"
                                         className="btn btn-primary"
                                     >
-                                        Download JPG
+                                        Download PNG
                                     </a>
                                 </div>
                             </div>
@@ -130,4 +130,4 @@ function FileConverter() {
     );
 }
 
-export default FileConverter;
+export default JPGtoPNG;
